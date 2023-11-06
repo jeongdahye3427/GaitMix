@@ -1,0 +1,17 @@
+{
+    "is_it_bidirectional" : true,
+    "multi_modal" : true,
+    "shall_i_have_contextual" : true,
+    "shall_i_have_inter_segment" : true,
+    "shall_i_sent" : true,
+    "shall_i_emot" : true,
+
+    "lstm_hidden_size" : 128,
+    "num_layers" : 2,
+    "att_size" : 64,
+    "epochs" : 100,
+    "lr" : 1e-4,
+    "batch_size" : 32,
+
+    "file_name" : "./Results/Central.txt"
+}
