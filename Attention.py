@@ -25,6 +25,21 @@ class self_attention(nn.Module):
         attn_hidden = F.relu(self.concat_linear(torch.cat((context, final_state), dim=1)))
         return attn_hidden
 
+class ScaledDotProductAttention(nn.Module):
+    def __init__(self, dim: int):
+        super(ScaledDotProductAttention, self).__init__()
+        self.sqrt_dim = np.sqrt(dim)
+
+    def forward(self, query: Tensor, key: Tensor, value: Tensor, mask: Optional[Tensor] = None) -> Tuple[Tensor, Tensor]:
+        score = torch.bmm(query, key.transpose(1, 2)) / self.sqrt_dim
+
+        if mask is not None:
+            score.masked_fill_(mask.view(score.size()), -float('Inf'))
+
+        attn = F.softmax(score, -1)
+        context = torch.bmm(attn, value)
+        return context, attn
+
 class MultiHeadAttention(nn.Module):
     def __init__(self, d_model: int = HIDDEN_DIM, num_heads: int = 4):
         super(MultiHeadAttention, self).__init__()
