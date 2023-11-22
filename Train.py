@@ -19,6 +19,7 @@ from torch.utils.data import DataLoader
 
 from sklearn.metrics import mean_absolute_error
 from Attention import self_attention, MultiHeadAttention
+from ResNet50 import resnet50
 
 import warnings
 warnings.filterwarnings('ignore')
@@ -161,26 +162,17 @@ shall_i_have_contextual = data["shall_i_have_contextual"] #True
 shall_i_have_inter_segment = data["shall_i_have_inter_segment"] #True
 
 encoder_shape = 128
-
-    
-resnet50 = models.resnet50(pretrained=True)
-resnet50 = torch.nn.Sequential(*(list(resnet50.children())[:-3])).to(device)
-
-for param in resnet50.parameters():
-    param.requires_grad = False
-
-
 HIDDEN_DIM =  128
 START_AGE = 2
 END_AGE = 87
 
 
-class ASPFuseNet(nn.Module):
+class GaitMix(nn.Module):
     """
     Main classifier
     """  
     def __init__(self, input_size, hidden_size, num_layers, att_size):
-        super(ASPFuseNet, self).__init__()
+        super(GaitMix, self).__init__()
 
         global is_it_bidirectional, multi_modal, shall_i_have_contextual, shall_i_have_contextual, projection_shape
 
@@ -221,6 +213,9 @@ class ASPFuseNet(nn.Module):
         
         # RNN for Images' ResNet embedding
         self.rnn_I = nn.LSTM(self.resnet_final_size, hidden_size, num_layers, bidirectional = is_it_bidirectional, batch_first=True)
+
+        # ResNet 50
+        self.resnet = resnet50()
         
         # Self Attention - Shared
         self.SelfAtten_shared = self_attention(l*hidden_size, self.att_size, self.is_it_bidirectional_numerical + 1)        
@@ -254,23 +249,22 @@ class ASPFuseNet(nn.Module):
         self.final_linear_gender = nn.Linear(self.encoder_shape, self.gender_targ_size)
         self.final_linear_age = nn.Linear(self.encoder_shape, self.age_targ_size)
 
-    ## 여기서 r은 review, t는 text
     def forward(self, pose_vec, img, gait_feat):
 
         # global resnet18
         R = torch.nn.ReLU()
-        D = torch.nn.Dropout(0.2)
+        D = torch.nn.Dropout(0.3)
         N = gait_feat.shape[0] 
         
         ## GEI resnet, global average pooling
-        resnet_glob_avg_pool = resnet50(img).mean(dim=(-2, -1)).unsqueeze(-1).view(N, 4, self.resnet_final_size) # 4,256
+        resnet_output = self.resnet(img).view(N, 8, self.resnet_final_size)
         
         pose_concat1 = torch.cat((pose_vec, gait_feat), dim = -1) # 18,83
         
         shared_pose = D(R(self.linear_preshare_M(pose_concat1))) # 18,256
         
         ## shared bilstm layer를 위한 관절벡터(mesh), 이미지(GEI) 결합
-        Concat_shared = torch.cat((shared_pose, resnet_glob_avg_pool), dim = 1)
+        Concat_shared = torch.cat((shared_pose, resnet_output), dim = 1)
         
         ## Mesh 메모리 삭제
         del shared_pose
@@ -340,7 +334,7 @@ batch_size = data['batch_size']
 
 input_size = 83
 
-centralized_model = ASPFuseNet(input_size, lstm_hidden_size, num_layers, att_size).to(device=device)
+centralized_model = GaitMix(input_size, lstm_hidden_size, num_layers, att_size).to(device=device)
     
 gender_loss = torch.nn.BCELoss() 
 
@@ -404,7 +398,7 @@ for e in range(epochs):
         
         loss_2 = softmax_loss + loss_l1
         
-        loss = loss_1 + loss_2
+        loss = loss_1 + (0.7*loss_2)
 
         loss.backward()
         optimizer.step()
@@ -478,7 +472,7 @@ for e in range(epochs):
             
             loss_2 = softmax_loss + loss_l1
         
-            loss = loss_1 + loss_2
+            loss = loss_1 + (0.7*loss_2)
             
             total_validation_loss += loss
 
