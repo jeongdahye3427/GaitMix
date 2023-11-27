@@ -1,4 +1,4 @@
-# GaitMix
+# GaitMix 
 The PyTorch implementation of our CVPR 2024 paper "GaitMix: Integrating Multi-View Silhouette and 3D Pose for Soft Biometrics Recognition"
 
 We introduce GaitMix, a soft biometric recognition model integrating multi-view silhouette and 3D pose. Illustrated in the below Figure, our model has four architectural components: silhouette encoder, 3D pose encoder, dual-level fusion module, and estimation module.
@@ -10,7 +10,7 @@ We introduce GaitMix, a soft biometric recognition model integrating multi-view 
 [Updated on 11/06/2023] Released a code for GaitMix.
 
 ## Example Results
-Some soft biometrics recognition results on the OUMVLP dataset.
+Some soft biometrics recognition results on the OUMVLP dataset. The left value indicates ground truth and the right value is estimated age.
 
 <img src="./img/examples.jpg" width="900" height="1600"/>
 
