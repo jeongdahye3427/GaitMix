@@ -12,7 +12,7 @@ We introduce GaitMix, a soft biometric recognition model integrating multi-view 
 ## Example Results
 Some soft biometrics recognition results on the OUMVLP dataset.
 
-<img src="./img/examples.jpg" width="1000" height="1600"/>
+<img src="./img/examples.jpg" width="900" height="1600"/>
 
 ## Training GaitMix
 The training of our GaitMix includes four stages: 1. download the datasets (i.e., OUMVLP and OUMVLP-Mesh); 2. extract three features; 3. split data into train, validation, and test set; 4. Train GaitMix.
