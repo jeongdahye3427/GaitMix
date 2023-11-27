@@ -1,3 +1,9 @@
+import torch
+import torch.nn as nn
+
+START_AGE = 2
+END_AGE = 87
+
 class BottleNeck(nn.Module):
     expansion = 4
     def __init__(self, in_channels, out_channels, stride=1):
@@ -29,7 +35,7 @@ class BottleNeck(nn.Module):
         x = self.relu(x)
         return x
 
-  class ResNet(nn.Module):
+class ResNet(nn.Module):
     def __init__(self, block, num_block, init_weights=True):
         super().__init__()
         
