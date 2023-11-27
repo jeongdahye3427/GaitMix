@@ -21,10 +21,13 @@ The training of our GaitMix includes four stages: 1. download the datasets (i.e.
 We use both OUMVLP and OUMVLP-Mesh datasets in experiments and you can download the dataset here: <http://www.am.sanken.osaka-u.ac.jp/BiometricDB/GaitMVLP.html>
 
 2. Feature extraction
+   
 We extract three types from two modalities (e.g., silhouette and 3D pose)
+
 - GEI features
 - HC3D features
 - gait features
+
 You can extract them by executing FeatureExtraction.py
 
 ```
@@ -32,6 +35,7 @@ python FeatureExtraction.py
 ```
 
 3. Data Split
+   
 We split the dataset to train, validate, and test sets. You can split dataset by executing DataSplit.py
 
 ```
@@ -39,6 +43,7 @@ python DataSplit.py
 ```
 
 4. Train the model
+   
 You can train our model by conducting Train.py
 
 ```
