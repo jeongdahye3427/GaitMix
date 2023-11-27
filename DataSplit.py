@@ -1,6 +1,10 @@
 import pandas as pd
 from tqdm import tqdm
 import pickle
+import glob
+import random
+
+print('data split start..!')
 
 info = pd.read_csv('./Data/subject_info_OUMVLP.csv')
 
@@ -115,6 +119,10 @@ print('No of train samples', len(train2_id))
 print('No of validation samples', len(validation_id))
 print('No of test Samples', len(test_id))
 
+with open("./Data/gait_data.pickle","rb") as fr:
+    data = pickle.load(fr)
+
+
 train_keys = list()
 valid_keys = list()
 test_keys = list()
@@ -134,3 +142,4 @@ with open("./Data/valid_keys.pkl","wb") as f:
 with open("./Data/test_keys.pkl","wb") as f:
     pickle.dump(test_keys, f)
 
+print('data split complete..!')
