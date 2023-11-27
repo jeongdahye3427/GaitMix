@@ -2,7 +2,8 @@
 The PyTorch implementation of our CVPR 2024 paper "GaitMix: Integrating Multi-View Silhouette and 3D Pose for Soft Biometrics Recognition"
 
 We introduce GaitMix, a soft biometric recognition model integrating multi-view silhouette and 3D pose. Illustrated in the below Figure, our model has four architectural components: silhouette encoder, 3D pose encoder, dual-level fusion module, and estimation module.
-![image](https://github.com/jeongdahye3427/ASP-FuseNet/assets/41101841/0049bfba-d9d7-40c7-ae22-09dfeb33a7f2)
+
+<img src="./img/" width="200" height="400"/>
 
 ## Updates
 [Updated on 11/27/2023] Revised the overall code & read me file.
@@ -10,7 +11,8 @@ We introduce GaitMix, a soft biometric recognition model integrating multi-view 
 
 ## Example Results
 Some soft biometrics recognition results on the OUMVLP dataset.
-![examples](https://github.com/jeongdahye3427/GaitMix/assets/41101841/07570c1b-0a2d-40a8-a8b1-318ed5800ce4)
+
+<img src="./img/examples.jpg" width="1000" height="1600"/>
 
 ## Training GaitMix
 The training of our GaitMix includes four stages: 1. download the datasets (i.e., OUMVLP and OUMVLP-Mesh); 2. extract three features; 3. split data into train, validation, and test set; 4. Train GaitMix.
