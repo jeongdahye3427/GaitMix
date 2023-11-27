@@ -4,6 +4,9 @@ import math
 import pickle
 import numpy as np
 import os
+import glob
+
+print('Feature extraction start..!')
 
 info = pd.read_csv('./Data/subject_info_OUMVLP.csv')
 
@@ -224,5 +227,7 @@ for i in data.keys():
         data[i][2] = 0
 
 # save the features as a pickle file
-with open('./gait_data.pickle', 'wb') as fw:
+with open('./Data/gait_data.pickle', 'wb') as fw:
     pickle.dump(data, fw)
+    
+print('Feature extraction complete..!')
