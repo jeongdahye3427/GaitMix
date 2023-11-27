@@ -6,6 +6,8 @@ import torch.nn as nn
 from torch import Tensor
 import torch.nn.functional as F
 
+HIDDEN_DIM =  128
+
 class self_attention(nn.Module):
     """
     Self Attention between each of RNN's output and final output
