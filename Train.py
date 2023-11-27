@@ -14,7 +14,7 @@ import torchvision.transforms as T
 from PIL import Image
 import json
 from copy import deepcopy
-from torchvision.models import resnet50
+# from torchvision.models import resnet50
 from torch.utils.data import DataLoader
 
 from sklearn.metrics import mean_absolute_error
@@ -83,7 +83,7 @@ info2['age_group'] = age_group
 
 
 # load pickle file
-with open("./gait_data.pickle","rb") as fr:
+with open("./Data/gait_data.pickle","rb") as fr:
     data = pickle.load(fr)
 
 
@@ -291,7 +291,7 @@ class GaitMix(nn.Module):
         del pose_vec, img, gait_feat
 
         # silhouette module
-        I_encoder, (hidden, cell) = self.rnn_I(resnet_glob_avg_pool)
+        I_encoder, (hidden, cell) = self.rnn_I(resnet_output)
         hidden = R(hidden.permute(1, 0, 2).flatten(-2))
         I_atten = self.SelfAtten_img(I_encoder, hidden)
         img1 = D(R(self.linear_img(I_atten)))
