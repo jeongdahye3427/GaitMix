@@ -1,5 +1,5 @@
 # GaitMix 
-The PyTorch implementation of our IJCAI 2024 paper "GaitMix: Integrating Multi-View GEI and 3D Pose for Human Attribute Recognition"
+The PyTorch implementation of our CIKM 2024 paper "GaitMix: Integrating Multi-View GEI and 3D Pose for Human Attribute Recognition"
 
 We introduce GaitMix, a human attribute recognition model integrating multi-view GEI and 3D pose. Illustrated in the figure below, our model has four architectural components: a GEI encoder, a 3D pose encoder, a dual-level fusion module, and an estimation module.
 
